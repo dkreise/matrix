@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 template <typename T>
 class Vector {
@@ -25,16 +26,23 @@ class Vector {
         }
 
         void print() const {
+            size_t width = 0;
+            for (auto& val : data) {
+                std::ostringstream oss;
+                oss << val;
+                width = std::max(width, oss.str().size());
+            }
+
             for (size_t i = 0; i < size(); i++) {
-                std::cout << "[" << data[i] << "]" << std::endl;
+                std::cout << "[" << std::left << std::setw(width) << data[i] << "]" << std::endl;
             }
         }
 };
 
-template <typename T>
-std::ostream & operator<<(std::ostream & o, Vector<T> const & v) {
-    for (size_t i = 0; i < v.size(); i++) {
-        o << "[" << v[i] << "]" << std::endl;
-    }
-	return (o);
-}
+// template <typename T>
+// std::ostream & operator<<(std::ostream & o, Vector<T> const & v) {
+//     for (size_t i = 0; i < v.size(); i++) {
+//         o << "[" << v[i] << "]" << std::endl;
+//     }
+// 	return (o);
+// }
