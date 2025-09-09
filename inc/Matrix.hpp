@@ -32,12 +32,31 @@ class Matrix {
             }
         }
 
+        /*** OPERATORS ***/
+
         T& operator()(size_t i, size_t j) {
             return data[i * ncols + j];
         }
         const T& operator()(size_t i, size_t j) const {
             return data[i * ncols + j];
         }
+        Matrix<T> operator+(const Matrix<T>& m) const {
+            Matrix<T> result = *this;
+            result.add(m);
+            return result;
+        }
+        Matrix<T> operator-(const Matrix<T>& m) const {
+            Matrix<T> result = *this;
+            result.sub(m);
+            return result;
+        }
+        Matrix<T> operator*(const T& a) const {
+            Matrix<T> result = *this;
+            result.scl(a);
+            return result;
+        }
+
+        /*** UTILS ***/
 
         size_t rows() const {
             return nrows;
@@ -48,7 +67,6 @@ class Matrix {
         bool isSquare() const {
             return nrows == ncols;
         }
-
         void print() const {
             // find maximum width
             size_t width = 0;
@@ -67,6 +85,36 @@ class Matrix {
                     }
                 }
                 std::cout << "]" << std::endl;
+            }
+        }
+        void print(const std::string& name) const {
+            std::cout << name << " = " << std::endl;
+            print();
+        }
+
+        /*** EX 00 ***/
+
+        void add(const Matrix<T>& m) {
+            if (nrows != m.rows() || ncols != m.cols()) {
+                throw std::invalid_argument("Matrices must have the same dimensions for addition.");
+            }
+            for (size_t i = 0; i < data.size(); i++) {
+                data[i] += m.data[i];
+            }
+        }
+
+        void sub(const Matrix<T>& m) {
+            if (nrows != m.rows() || ncols != m.cols()) {
+                throw std::invalid_argument("Matrices must have the same dimensions for subtraction.");
+            }
+            for (size_t i = 0; i < data.size(); i++) {
+                data[i] -= m.data[i];
+            }
+        }
+
+        void scl(const T& a) {
+            for (size_t i = 0; i < data.size(); i++) {
+                data[i] *= a;
             }
         }
 };
