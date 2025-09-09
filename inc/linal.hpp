@@ -4,6 +4,7 @@
 #include "Matrix.hpp"
 
 #include <vector>
+#include <cmath>
 
 namespace linal {
     // template <typename T>
@@ -29,5 +30,17 @@ namespace linal {
             result = result + (u[i] * coefs[i]);
         }
         return result;
+    }
+
+    /*** EX 02 ***/
+
+    // u * (1.0f - t) + v * t  OR  u + (v - u) * t
+    template <typename T>
+    T lerp(const T& u, const T&v, float t) {
+        if (t < 0.0f || t > 1.0f) {
+            throw std::out_of_range("t must be in the range [0, 1].");
+        }
+        // return std::fma(v - u, t, u);
+        return u + (v - u) * t;
     }
 }
