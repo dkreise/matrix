@@ -39,3 +39,5 @@
 
 # debug information files
 *.dwo
+
+ex/**/ex[0-9][0-9]
