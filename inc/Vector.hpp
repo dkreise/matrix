@@ -13,6 +13,7 @@ class Vector {
         Vector() {}
         Vector(size_t n, T value = T{}) : data(n, value) {}
         Vector(const std::vector<T>& values) : data(values) {}
+        Vector(std::initializer_list<T> init) : data(init) {}
 
         /*** OPERATORS ***/
 
@@ -52,7 +53,7 @@ class Vector {
             }
 
             for (size_t i = 0; i < size(); i++) {
-                std::cout << "[" << std::left << std::setw(width) << data[i] << "]" << std::endl;
+                std::cout << "\t[" << std::left << std::setw(width) << data[i] << "]" << std::endl;
             }
         }
         void print(const std::string& name) const {

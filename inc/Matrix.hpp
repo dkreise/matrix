@@ -77,7 +77,7 @@ class Matrix {
             }
 
             for (size_t i = 0; i < nrows; i++) {
-                std::cout << "[";
+                std::cout << "\t[";
                 for (size_t j = 0; j < ncols; j++) {
                     std::cout << std::left << std::setw(width) << operator()(i, j);
                     if (j < ncols - 1) {

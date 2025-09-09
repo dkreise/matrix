@@ -40,4 +40,19 @@
 # debug information files
 *.dwo
 
-ex/**/ex[0-9][0-9]
+ex/ex00/ex00
+ex/ex01/ex01
+ex/ex02/ex02
+ex/ex03/ex03
+ex/ex04/ex04
+ex/ex05/ex05
+ex/ex06/ex06
+ex/ex07/ex07
+ex/ex08/ex08
+ex/ex09/ex09
+ex/ex10/ex10
+ex/ex11/ex11
+ex/ex12/ex12
+ex/ex13/ex13
+ex/ex14/ex14
+ex/ex15/ex15
