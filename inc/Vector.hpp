@@ -105,21 +105,21 @@ class Vector {
 
         /*** EX 04 ***/
 
-        T norm_1() const {
-            T norm = T{};
+        float norm_1() const {
+            float norm = 0.0f;
             for (size_t i = 0; i < size(); i++) {
                 norm += std::max(data[i], -data[i]);
             }
             return norm;
         }
 
-        T norm() const {
-            T norm = dot(*this);
-            return std::pow(norm, T{0.5});
+        float norm() const {
+            float norm = dot(*this);
+            return std::pow(norm, 0.5f);
         }
 
-        T norm_inf() const {
-            T norm = T{};
+        float norm_inf() const {
+            float norm = 0.0f;
             for (size_t i = 0; i < size(); i++) {
                 norm = std::max(norm, std::max(data[i], -data[i]));
             }

@@ -21,5 +21,13 @@ int main() {
     u = Vector<float>({-1.0f, -2.0f});
     print_test(u);
 
+    // Vector<int> v({-1, 2, -3, 4});
+    // v.print("v");
+    // std::cout << std::endl;
+    // std::cout << "||v||_1   = " << v.norm_1() << std::endl;
+    // std::cout << "||v||     = " << v.norm() << std::endl;
+    // std::cout << "||v||_inf = " << v.norm_inf() << std::endl;
+    // std::cout << "-----------------------------" << std::endl;
+
     return 0; 
 }
