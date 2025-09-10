@@ -55,7 +55,7 @@ class Vector {
             }
 
             for (size_t i = 0; i < size(); i++) {
-                std::cout << "\t[" << std::left << std::setw(width) << data[i] << "]" << std::endl;
+                std::cout << "   [" << std::left << std::setw(width) << data[i] << "]" << std::endl;
             }
         }
         void print(const std::string& name) const {
@@ -101,5 +101,28 @@ class Vector {
                 result = std::fma(data[i], v[i], result);
             }
             return result;
+        }
+
+        /*** EX 04 ***/
+
+        T norm_1() const {
+            T norm = T{};
+            for (size_t i = 0; i < size(); i++) {
+                norm += std::max(data[i], -data[i]);
+            }
+            return norm;
+        }
+
+        T norm() const {
+            T norm = dot(*this);
+            return std::pow(norm, T{0.5});
+        }
+
+        T norm_inf() const {
+            T norm = T{};
+            for (size_t i = 0; i < size(); i++) {
+                norm = std::max(norm, std::max(data[i], -data[i]));
+            }
+            return norm;
         }
 };
