@@ -43,4 +43,20 @@ namespace linal {
         // return std::fma(v - u, t, u);
         return u + (v - u) * t;
     }
+
+    /*** EX 05 ***/
+
+    template <typename T>
+    float angle_cos(const Vector<T>& u, const Vector<T>& v) {
+        if (u.size() != v.size() || u.size() == 0) {
+            throw std::invalid_argument("Vectors must be of the same non-zero size.");
+        }
+        T dot_product = u.dot(v);
+        float norm_u = u.norm();
+        float norm_v = v.norm();
+        if (norm_u == 0.0f || norm_v == 0.0f) {
+            throw std::domain_error("Cannot compute angle with zero-length vector.");
+        }
+        return dot_product / (norm_u * norm_v);
+    }
 }
