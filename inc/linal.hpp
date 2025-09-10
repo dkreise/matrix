@@ -59,4 +59,18 @@ namespace linal {
         }
         return dot_product / (norm_u * norm_v);
     }
+
+    /*** EX 06 ***/
+
+    template <typename T>
+    Vector<T> cross_product(const Vector<T>& u, const Vector<T>& v) {
+        if (u.size() != 3 || v.size() != 3) {
+            throw std::invalid_argument("Both vectors must be 3-dimensional.");
+        }
+        return Vector<T>({
+            u[1] * v[2] - u[2] * v[1],
+            u[2] * v[0] - u[0] * v[2],
+            u[0] * v[1] - u[1] * v[0]
+        });
+    }
 }
