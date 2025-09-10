@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <stdexcept>
+#include <cmath>
 
 template <typename T>
 class Vector {
@@ -85,5 +87,19 @@ class Vector {
             for (size_t i = 0; i < size(); i++) {
                 data[i] *= a;
             }
+        }
+
+        /*** EX 03 ***/
+
+        T dot(const Vector<T>& v) const {
+            if (size() != v.size()) {
+                throw std::invalid_argument("Vectors must be of the same size for dot product.");
+            }
+            T result = T{};
+            for (size_t i = 0; i < size(); i++) {
+                // result += data[i] * v[i];
+                result = std::fma(data[i], v[i], result);
+            }
+            return result;
         }
 };
