@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector.hpp"
+
 #include <iostream>
 #include <vector>
 #include <stdexcept>
@@ -77,7 +79,7 @@ class Matrix {
             }
 
             for (size_t i = 0; i < nrows; i++) {
-                std::cout << "\t[";
+                std::cout << "   [";
                 for (size_t j = 0; j < ncols; j++) {
                     std::cout << std::left << std::setw(width) << operator()(i, j);
                     if (j < ncols - 1) {
@@ -116,5 +118,41 @@ class Matrix {
             for (size_t i = 0; i < data.size(); i++) {
                 data[i] *= a;
             }
+        }
+
+        /*** EX 07 ***/
+
+        Vector<T> mul_vec(const Vector<T>& v) const {
+            if (ncols != v.size()) {
+                throw std::invalid_argument("Matrix columns must match vector size for multiplication.");
+            }
+
+            Vector<T> result(nrows, T{});
+            for (size_t i = 0; i < nrows; i++) {
+                T sum = T{};
+                for (size_t j = 0; j < ncols; j++) {
+                    sum = std::fma(operator()(i, j), v[j], sum);
+                }
+                result[i] = sum;
+            }
+            return result;
+        }
+
+        Matrix<T> mul_mat(const Matrix<T>& m) const {
+            if (ncols != m.rows()) {
+                throw std::invalid_argument("Matrix A columns must match Matrix B rows for multiplication.");
+            }
+
+            Matrix<T> result(nrows, m.cols(), T{});
+            for (size_t i = 0; i < nrows; i++) {
+                for (size_t j = 0; j < m.cols(); j++) {
+                    T sum = T{};
+                    for (size_t k = 0; k < ncols; k++) {
+                        sum = std::fma(operator()(i, k), m(k, j), sum);
+                    }
+                    result(i, j) = sum;
+                }
+            }
+            return result;
         }
 };
