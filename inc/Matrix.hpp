@@ -155,4 +155,17 @@ class Matrix {
             }
             return result;
         }
+
+        /*** EX 08 ***/
+
+        T trace() const {
+            if (!isSquare()) {
+                throw std::invalid_argument("Matrix must be square to compute trace.");
+            }
+            T sum = T{};
+            for (size_t i = 0; i < nrows; i++) {
+                sum += operator()(i, i);
+            }
+            return sum;
+        }
 };
