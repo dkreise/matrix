@@ -180,4 +180,51 @@ class Matrix {
             }
             return result;
         }
+
+        /*** EX 10 ***/
+
+        Matrix<T> row_echelon() const {
+            Matrix<T> res = *this;
+            size_t lead_row = 0;
+            for (size_t col = 0; col < ncols && lead_row < nrows; col++) {
+                // Find the pivot
+                size_t max_row = lead_row;
+                for (size_t r = lead_row + 1; r < nrows; r++) {
+                    if (std::abs(res(r, col)) > std::abs(res(max_row, col))) {
+                        max_row = r;
+                    }
+                }
+                if (std::abs(res(max_row, col)) < 1e-12) {
+                    continue; // No pivot in this column
+                }
+
+                // Swap to put pivot on the lead row
+                if (max_row != lead_row) {
+                    for (size_t c = 0; c < ncols; c++) {
+                        std::swap(res(lead_row, c), res(max_row, c));
+                    }
+                }
+
+                // Scale pivot to 1
+                T pivot = res(lead_row, col);
+                for (size_t c = col; c < ncols; c++) {
+                    res(lead_row, c) /= pivot;
+                }
+
+                // Eliminate all other rows
+                for (size_t r = 0; r < nrows; r++) {
+                    if (r != lead_row) {
+                        T factor = res(r, col);
+                        if (std::abs(factor) < 1e-12) {
+                            continue; // No need to eliminate
+                        }
+                        for (size_t c = col; c < ncols; c++) {
+                            res(r, c) -= factor * res(lead_row, c);
+                        }
+                    }
+                }
+                lead_row++;
+            }
+            return res;
+        }
 };
