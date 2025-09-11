@@ -168,4 +168,16 @@ class Matrix {
             }
             return sum;
         }
+
+        /*** EX 09 ***/
+
+        Matrix<T> transpose() const {
+            Matrix<T> result(ncols, nrows, T{});
+            for (size_t i = 0; i < nrows; i++) {
+                for (size_t j = 0; j < ncols; j++) {
+                    result(j, i) = operator()(i, j);
+                }
+            }
+            return result;
+        }
 };
