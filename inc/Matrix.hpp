@@ -273,7 +273,72 @@ class Matrix {
 
                 det *= m(i, i);
             }
-            
+
             return sign * det;
+        }
+
+        /*** EX 12 ***/
+
+        Matrix<T> inverse() const {
+            if (!isSquare() || nrows == 0) {
+                throw std::invalid_argument("Matrix must be square to compute inverse.");
+            }
+
+            size_t n = nrows;
+
+            // Create augmented matrix [A | I]
+            Matrix<T> aug(n, 2 * n, T{});
+            for (size_t i = 0; i < n; i++) {
+                for (size_t j = 0; j < n; j++) {
+                    aug(i, j) = operator()(i, j);
+                }
+                aug(i, n + i) = T{1};
+            }
+
+            // Apply Gauss-Jordan elimination
+            for (size_t i = 0; i < n; i++) {
+                // Find pivot
+                size_t pivot_row = i;
+                for (size_t r = i + 1; r < n; r++) {
+                    if (std::abs(aug(r, i)) > std::abs(aug(pivot_row, i))) {
+                        pivot_row = r;
+                    }
+                }
+                if (std::abs(aug(pivot_row, i)) < 1e-12) {
+                    throw std::runtime_error("Matrix is singular and cannot be inverted.");
+                }
+
+                // Swap rows if needed
+                if (pivot_row != i) {
+                    for (size_t c = 0; c < 2 * n; c++) {
+                        std::swap(aug(i, c), aug(pivot_row, c));
+                    }
+                }
+
+                // Scale pivot to 1
+                T pivot = aug(i, i);
+                for (size_t c = 0; c < 2 * n; c++) {
+                    aug(i, c) /= pivot;
+                }
+
+                // Eliminate all other rows
+                for (size_t r = 0; r < n; r++) {
+                    if (r != i) {
+                        T factor = aug(r, i);
+                        for (size_t c = 0; c < 2 * n; c++) {
+                            aug(r, c) -= factor * aug(i, c);
+                        }
+                    }
+                }
+            }
+
+            // Extract inverse from augmented matrix
+            Matrix<T> inv(n, n, T{});
+            for (size_t i = 0; i < n; i++) {
+                for (size_t j = 0; j < n; j++) {
+                    inv(i, j) = aug(i, n + j);
+                }
+            }
+            return inv;
         }
 };
