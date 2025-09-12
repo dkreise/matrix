@@ -341,4 +341,22 @@ class Matrix {
             }
             return inv;
         }
+
+        size_t rank() const {
+            Matrix<T> ref = row_echelon();
+            size_t rank = 0;
+            for (size_t i = 0; i < ref.rows(); i++) {
+                bool non_zero_row = false;
+                for (size_t j = 0; j < ref.cols(); j++) {
+                    if (std::abs(ref(i, j)) > 1e-12) {
+                        non_zero_row = true;
+                        break;
+                    }
+                }
+                if (non_zero_row) {
+                    rank++;
+                }
+            }
+            return rank;
+        }
 };
