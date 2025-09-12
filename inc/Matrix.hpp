@@ -227,4 +227,53 @@ class Matrix {
             }
             return res;
         }
+
+        /*** EX 11 ***/
+
+        T determinant() const {
+            if (!isSquare() || nrows == 0) {
+                throw std::invalid_argument("Matrix must be square to compute determinant.");
+            }
+            if (nrows > 4) {
+                throw std::invalid_argument("Determinant calculation is only implemented for matrices up to 4x4.");
+            }
+
+            Matrix<T> m = *this;
+            T det = T{1};
+            int sign = 1;
+
+            for (size_t i = 0; i < nrows; i++) {
+                // Find pivot
+                size_t pivot_row = i;
+                for (size_t r = i + 1; r < nrows; r++) {
+                    if (std::abs(m(r, i)) > std::abs(m(pivot_row, i))) {
+                        pivot_row = r;
+                    }
+                }
+                // if pivot is close to zero, determinant is zero
+                if (std::abs(m(pivot_row, i)) < 1e-12) {
+                    return T{0};
+                }
+
+                // Swap rows if needed
+                if (pivot_row != i) {
+                    for (size_t c = 0; c < ncols; c++) {
+                        std::swap(m(i, c), m(pivot_row, c));
+                    }
+                    sign = -sign;
+                }
+
+                // Eliminate below
+                for (size_t r = i + 1; r < nrows; r++) {
+                    T factor = m(r, i) / m(i, i);
+                    for (size_t c = i; c < ncols; c++) {
+                        m(r, c) -= factor * m(i, c);
+                    }
+                }
+
+                det *= m(i, i);
+            }
+            
+            return sign * det;
+        }
 };
